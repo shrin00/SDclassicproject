@@ -3,12 +3,18 @@
 
 {% block content %}
 <form method="POST">{% csrf_token %}
-    <b>Name:</b><input type="text" name="name" value=""><br>
-    <b>Email:</b><input type="text" name="Email" placeholder="example@gmail.com" value=""><br>
+    <b>First Name:</b><input type="text" name="fname" value=""><br>
+    <b>Last Name:</b><input type="text" name="lname" value=""><br>
+    <b>Email:</b><input type="email" name="email" placeholder="example@gmail.com" value=""><br>
     <b>Password:</b><input type="password" id="pass" name="password" value=""><br>
     <b>Confirm:</b><input type="password" id="cpass" name="cpassword" value=""><br>
-    <b>Contact:</b><input type="number" id="" name="contact" value=""><br>
-    <b>Gender:</b><input type="text" id="" name="gender" value=""><br>
+    <b>Contact:</b><input type="number" id="" name="contact" pattern="[789][0-9]{9}"><br>
+    <b>Gender:</b>
+    <select name="gender">
+    <option value="male">Male</option>
+    <option value="female">Female</option>
+    <option value="Transgender">Transgender</option>
+    </select>
     <input type="submit" value="submit"></input><input type="reset" value="reset"></input>
 </form>
 <script>
