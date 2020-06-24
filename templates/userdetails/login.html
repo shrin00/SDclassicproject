@@ -5,8 +5,18 @@
 {% block content %}
 <h3>Welcome! please enter required data</h3>
 <form method="POST">{% csrf_token %}
-        <input type="text" placeholder="email" name="email"><br>
-        <input type="text" placeholder="Password" name="password"><br>
-        <button type="submit" value="submit">submit</button><button type="reset" name="reset">reset</button><a href="/userdetails/register">New here!</a>
+        <input type="text" required placeholder="email" name="email"><br>
+        <input type="password" required placeholder="Password" name="password"><br>
+        <button type="submit" value="submit">submit</button><button type="reset" name="reset">reset</button><br>
+        <a href="/userdetails/register">New here!</a>
+        <a href="/userdetails/passwordreset/">Forgot password?</a>
 </form>
+{% if invalid %}
+{% if user %}
+        <h4 style="color:red"> Password Incorrect!</h4>
+{% else %}
+        <h4 style="color:red"> User does Not Exist!</h4>
+        <h4 style="color:red">With {{email}}</h4>
+{% endif %}
+{% endif %}
 {% endblock %}
