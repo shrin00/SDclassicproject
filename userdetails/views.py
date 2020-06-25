@@ -15,6 +15,11 @@ def login_page(request):
         user=authenticate(request, username=email, password=password)
         if user is not None:
             login(request, user)
+            user=details.objects.filter(email=request.user.email).first()
+            if user:
+                if user.citizen:
+
+                    return redirect('/userdetails/citizsenprofile/')
             return redirect('/manageing/home/')
         else:
             try:
@@ -47,7 +52,11 @@ def register_new(request):
                 first_name=fname,
                 last_name=lname,
                 contact=contact,
-                gender=gender
+                gender=gender,
+                citizen=True,
+                water_dep=False,
+                elec_dept=False,
+                road_dept=False
             )
             user1.save()
             print(user1, user)
@@ -82,3 +91,124 @@ def logout_page(request):
         print('loged out!')
         logout(request)
     return redirect('login_page')
+
+def water_dep(request):
+    data = {'exists': False}
+    if request.POST:
+        fname = request.POST.get('fname')
+        lname = request.POST.get('lname')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        contact = request.POST.get('contact')
+        gender = request.POST.get('gender')
+
+        user = User.objects.filter(email=email, username=email)
+        # print('ji', user)
+        if user.count() > 0:
+            data = {'exists': True}
+        else:
+            user = User.objects.create_user(username=email, email=email, password=password)
+            user1 = details(
+                email=email,
+                first_name=fname,
+                last_name=lname,
+                contact=contact,
+                gender=gender,
+                citizen=False,
+                water_dep=True,
+                elec_dept=False,
+                road_dept=False
+            )
+            user1.save()
+            print(user1, user)
+            return redirect('/userdetails/login/')
+
+    return render(request, 'userdetails/register.html')
+
+
+def electric_dept(request):
+    data = {'exists': False}
+    if request.POST:
+        fname = request.POST.get('fname')
+        lname = request.POST.get('lname')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        contact = request.POST.get('contact')
+        gender = request.POST.get('gender')
+
+        user = User.objects.filter(email=email, username=email)
+        # print('ji', user)
+        if user.count() > 0:
+            data = {'exists': True}
+        else:
+            user = User.objects.create_user(username=email, email=email, password=password)
+            user1 = details(
+                email=email,
+                first_name=fname,
+                last_name=lname,
+                contact=contact,
+                gender=gender,
+                citizen=False,
+                water_dep=False,
+                elec_dept=True,
+                road_dept=False
+            )
+            user1.save()
+            print(user1, user)
+            return redirect('/userdetails/login/')
+
+    return render(request, 'userdetails/register.html')
+
+
+def road_dept(request):
+    data = {'exists': False}
+    if request.POST:
+        fname = request.POST.get('fname')
+        lname = request.POST.get('lname')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        contact = request.POST.get('contact')
+        gender = request.POST.get('gender')
+
+        user = User.objects.filter(email=email, username=email)
+        # print('ji', user)
+        if user.count() > 0:
+            data = {'exists': True}
+        else:
+            user = User.objects.create_user(username=email, email=email, password=password)
+            user1 = details(
+                email=email,
+                first_name=fname,
+                last_name=lname,
+                contact=contact,
+                gender=gender,
+                citizen=False,
+                water_dep=False,
+                elec_dept=False,
+                road_dept=True
+            )
+            user1.save()
+            print(user1, user)
+            return redirect('/userdetails/login/')
+
+    return render(request, 'userdetails/register.html')
+
+
+def citizsenprofile(request):
+    data={}
+    if request.user.is_authenticated:
+        us = details.objects.filter(email=request.user.email).first()
+        if us:
+            data={
+                'fname':us.first_name,
+                'lname':us.last_name,
+                'email':request.user.email,
+                'contact':us.contact,
+                'gender':us.gender
+            }
+        else:
+            return redirect('/userdetails/login/')
+    else:
+        return redirect('/userdetails/login/')
+
+    return render(request, 'userdetails/citizenprofile.html', data)
