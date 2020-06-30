@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div>
+    <form method="POST">{% csrf_token %}
+        <label for="subject">Subject:</label>
+        <input type="text" name="subject" id="subject" /><br>
+        <label for="news_post">NEWS:</label>
+        <textarea name="news_post" id="news_post"></textarea><br>
+        <button type="submit">POST</button>
+    </form>
+</div>
+{% endblock %}

@@ -6,6 +6,8 @@
     <h5><b>Email:</b> {{email}}</h5>
     <h5><b>Contact Number:</b> {{contact}}</h5>
     <h5><b>Gender:</b> {{gender}}</h5>
-
+    {% if news_post %}
+    <a href="/userdetails/post_news/" >POST NEWS</a>
+    {% endif %}
 </div>
 {% endblock %}

@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, reverse
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.models import User
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect, request
-from .models import details
+from .models import details, news_update
 
 #User=get_user_model()
 def login_page(request):
@@ -19,6 +19,12 @@ def login_page(request):
             if user:
                 if user.citizen:
 
+                    return redirect('/userdetails/citizsenprofile/')
+                elif user.water_dep:
+                    return redirect('/userdetails/citizsenprofile/')
+                elif user.elec_dept:
+                    return redirect('/userdetails/citizsenprofile/')
+                elif user.road_dept:
                     return redirect('/userdetails/citizsenprofile/')
             return redirect('/manageing/home/')
         else:
@@ -198,7 +204,7 @@ def citizsenprofile(request):
     data={}
     if request.user.is_authenticated:
         us = details.objects.filter(email=request.user.email).first()
-        if us:
+        if us.citizen:
             data={
                 'fname':us.first_name,
                 'lname':us.last_name,
@@ -207,8 +213,59 @@ def citizsenprofile(request):
                 'gender':us.gender
             }
         else:
-            return redirect('/userdetails/login/')
+            data = {
+                'fname': us.first_name,
+                'lname': us.last_name,
+                'email': request.user.email,
+                'contact': us.contact,
+                'gender': us.gender,
+                'news_post':True
+            }
+        return render(request, 'userdetails/citizenprofile.html', data)
+
     else:
         return redirect('/userdetails/login/')
 
-    return render(request, 'userdetails/citizenprofile.html', data)
+def post_news(request):
+    data={'access':True}
+    if request.user.is_authenticated:
+        if request.POST:
+            us = details.objects.filter(email=request.user.email).first()
+            subject = request.POST.get('subject')
+            news = request.POST.get('news_post')
+            if us.water_dep:
+                new_post = news_update(
+                    subject=subject,
+                    news=news,
+                    water_dep=True,
+                    elec_dept=False,
+                    road_dept=False
+                )
+                new_post.save()
+                return redirect('/userdetails/citizsenprofile/')
+            elif us.elec_dept:
+                new_post = news_update(
+                    subject=subject,
+                    news=news,
+                    water_dep=False,
+                    elec_dept=True,
+                    road_dept=False
+                )
+                new_post.save()
+                return redirect('/userdetails/citizsenprofile/')
+            elif us.road_dept:
+                new_post = news_update(
+                    subject=subject,
+                    news=news,
+                    water_dep=False,
+                    elec_dept=False,
+                    road_dept=True
+                )
+                new_post.save()
+                return redirect('/userdetails/citizsenprofile/')
+            else:
+                data={'access':True}
+                return redirect('/userdetails/citizsenprofile/')
+        return render(request, 'userdetails/post_news.html', data)
+    else:
+        return redirect('/userdetails/login/')
