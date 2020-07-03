@@ -2,4 +2,36 @@
 
 {% block content %}
 
+<style>
+    .post{
+        background-color: #F0FFFF;
+        width: 600px;
+        height: 300px;
+        margin-left: 35%;
+        margin-top: 20px;
+        text-align: center;
+    }
+</style>
+<div>
+    {% if post %}
+    {% for i in post %}
+       <div class="post">
+           <p><b>{{i.subject}}</b></p><br>
+            <article>{{i.news}}</article><br>
+            <p>{{i.time}}</p><br>
+            {% if i.water_dep %}
+            <p> by- water department</p>
+            {% elif i.elec_dept %}
+            <p> by- Electric department</p>
+            {% elif i.road_dept %}
+            <p> by- Road department</p>
+            {% else %}
+            <p> by- Unknown</p>
+            {% endif %}
+       </div>
+    {% endfor %}
+    {% else %}
+    <p> nothing is available </p>
+    {% endif %}
+</div>
 {% endblock %}

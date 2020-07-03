@@ -19,13 +19,13 @@ def login_page(request):
             if user:
                 if user.citizen:
 
-                    return redirect('/userdetails/citizsenprofile/')
+                    return redirect('/userdetails/home_page/')
                 elif user.water_dep:
-                    return redirect('/userdetails/citizsenprofile/')
+                    return redirect('/userdetails/home_page/')
                 elif user.elec_dept:
-                    return redirect('/userdetails/citizsenprofile/')
+                    return redirect('/userdetails/home_page/')
                 elif user.road_dept:
-                    return redirect('/userdetails/citizsenprofile/')
+                    return redirect('/userdetails/home_page/')
             return redirect('/manageing/home/')
         else:
             try:
@@ -267,5 +267,25 @@ def post_news(request):
                 data={'access':True}
                 return redirect('/userdetails/citizsenprofile/')
         return render(request, 'userdetails/post_news.html', data)
+    else:
+        return redirect('/userdetails/login/')
+    
+    
+def load_home(request):
+    data={}
+    if request.user.is_authenticated:
+        us = details.objects.filter(email=request.user.email).first()
+        if us.citizen:
+            news = news_update.objects.all()
+        elif us.elec_dept:
+            news = news_update.objects.filter(elec_dept=True)
+        elif us.road_dept:
+            news = news_update.objects.filter(road_dept=True)
+        elif us.water_dep:
+            news = news_update.objects.filter(water_dep=True)
+        else:
+            news = None
+        data = {'post': news}
+        return render(request, 'userdetails/home_page.html', data)
     else:
         return redirect('/userdetails/login/')

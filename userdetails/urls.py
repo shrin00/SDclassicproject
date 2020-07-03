@@ -13,5 +13,6 @@ urlpatterns = [
     path('electric_dept/', electric_dept),
     path('road_dept/', road_dept),
     path('citizsenprofile/', citizsenprofile),
-    path('post_news/', post_news)
+    path('post_news/', post_news),
+    path('home_page/', load_home)
 ]
