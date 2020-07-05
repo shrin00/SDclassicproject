@@ -1,13 +1,22 @@
 {% extends 'base.html' %}
-
 {% load static %}
-
+{% block customcss %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+{% endblock %}
 {% block content %}
-<h3>Welcome! please enter required data</h3>
 <form method="POST">{% csrf_token %}
-        <input type="text" required placeholder="email" name="email"><br>
-        <input type="password" required placeholder="Password" name="password"><br>
-        <button type="submit" value="submit">submit</button><button type="reset" name="reset">reset</button><br>
+        <div class="login-box">
+                <h1>Login</h1>
+                <div class="textbox">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                        <input type="text" required placeholder="Email" name="email">
+                </div>
+                <div class="textbox">
+                        <i class="fa fa-lock" aria-hidden="true"></i>
+                       <input type="password" required placeholder="Password" name="password">
+                </div>
+                <input class="btn" type="submit" value="Login"><input class="btn" type="reset" value="Reset">
+        </div><br>
         <a href="/userdetails/register/">New Citizen!</a>
         <a href="/userdetails/water_dep/">New Water department!</a>
         <a href="/userdetails/electric_dept/">New Electric department!</a>
