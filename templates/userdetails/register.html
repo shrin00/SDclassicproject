@@ -1,22 +1,40 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% block customcss %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+{% endblock %}
 {% block content %}
 <form method="POST">{% csrf_token %}
-    <b>First Name:</b><input type="text" name="fname" value=""><br>
-    <b>Last Name:</b><input type="text" name="lname" value=""><br>
-    <b>Email:</b><input type="email" name="email" placeholder="example@gmail.com" value=""><br>
-    <b>Password:</b><input type="password" id="pass" name="password" value=""><br>
-    <b>Confirm:</b><input type="password" id="cpass" name="cpassword" value=""><br>
-    <b>Contact:</b><input type="number" id="" name="contact" pattern="[789][0-9]{9}"><br>
-    <b>Gender:</b>
-    <select name="gender">
-    <option value="male">Male</option>
-    <option value="female">Female</option>
-    <option value="Transgender">Transgender</option>
-    </select>
-    <input type="submit" value="submit"/>
-    <input type="reset" value="reset"/>
+    <div class="login-box">
+        <h1>Register</h1>
+        <div class="textbox">
+            <input type="text" name="fname" value="" placeholder="First Name">
+        </div>
+        <div class="textbox">
+            <input type="text" name="lname" value="" placeholder="Last Name">
+        </div>
+        <div class="textbox">
+            <input type="email" name="email" placeholder="Email" value="">
+        </div>
+        <div class="textbox">
+            <input type="password" id="pass" name="password" value="" placeholder="Password">
+        </div>
+        <div class="textbox">
+            <input type="password" id="cpass" name="cpassword" value="" placeholder="Confirm">
+        </div>
+        <div class="textbox">
+            <input type="number" id="" name="contact" pattern="[789][0-9]{9}" placeholder="Contact Number">
+        </div>
+        <div class="textbox" data-mate-select="active">
+            <select name="gender" id="sel">
+                <option value="" selected>------</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="Transgender">Transgender</option>
+            </select>
+        </div>
+        <input class="btn" type="submit" value="submit"/><input class="btn" type="reset" value="reset"/>
+    </div>
 </form>
 <script>
     $('#cpass').onchange(function(){

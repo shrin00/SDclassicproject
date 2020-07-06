@@ -51,6 +51,25 @@ body {
     margin: 0 10px;
 }
 
+.textbox select{
+    border: none;
+    outline: none;
+    background: none;
+    color: white;
+    width: 100%;
+    overflow: hidden;
+    background-color: transparent;
+    float: left;
+    transition: all 375ms ease-in-out;
+}
+
+.textbox select option{
+    background-color: #23261f;
+    border: none;
+    outline: none;
+    overflow: hidden;
+}
+
 .btn{
     width: 50%;
     background: none;
